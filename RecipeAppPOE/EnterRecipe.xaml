@@ -1,0 +1,42 @@
+﻿<Window x:Class="RecipeAppPOE.EnterRecipe"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RecipeAppPOE"
+        mc:Ignorable="d"
+        Title="EnterRecipe" Height="450" Width="800">
+    <Grid>
+        <Label Content="Enter recipe name" HorizontalAlignment="Left" Margin="20,29,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="RecipeNameTextBox" HorizontalAlignment="Left" Margin="25,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
+        <Label Content="Enter ingredient name" HorizontalAlignment="Left" Margin="54,111,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="IngredientNameTextBox" HorizontalAlignment="Left" Margin="54,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="IngredientNameTextBox_TextChanged"/>
+        <Label Content="Enter quantity" HorizontalAlignment="Left" Margin="54,191,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.015,0.236"/>
+        <Label Content="Enter food groups" HorizontalAlignment="Left" Margin="422,191,0,0" VerticalAlignment="Top"/>
+        <ListBox Margin="412,225,262,89" SelectionChanged="ListBox_SelectionChanged">
+            <!-- Add ListBoxItems for each unit of measurement -->
+            <ListBoxItem>Grams</ListBoxItem>
+            <ListBoxItem>Kilograms</ListBoxItem>
+            <ListBoxItem>Milliliters</ListBoxItem>
+            <ListBoxItem>Liters</ListBoxItem>
+            <!-- Add more units of measurement as needed -->
+        </ListBox>
+        <Label Content="Enter food calories" HorizontalAlignment="Left" Margin="400,79,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="CaloriesTextBox" HorizontalAlignment="Left" Margin="400,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="ENTER UNIT OF MEASUREMENT" HorizontalAlignment="Left" Margin="38,259,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.467,4.588"/>
+        <ListBox Margin="38,289,655,33">
+            <ListBoxItem>Grams</ListBoxItem>
+            <ListBoxItem>Kilograms</ListBoxItem>
+            <ListBoxItem>Milliliters</ListBoxItem>
+            <ListBoxItem>Liters</ListBoxItem>
+            <ListBoxItem/>
+        </ListBox>
+        <TextBox x:Name="QuantityTextBox" HorizontalAlignment="Left" Margin="54,222,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Add Recipe" HorizontalAlignment="Left" Margin="603,392,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <TextBox x:Name="InstructionsTextBox" HorizontalAlignment="Left" Margin="584,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="159" Height="87"/>
+        <Label Content="Instructions" HorizontalAlignment="Left" Margin="635,124,0,0" VerticalAlignment="Top"/>
+        <Button Content="Add ingredient" HorizontalAlignment="Left" Margin="435,381,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <Button Content="Add Instruction" HorizontalAlignment="Left" Margin="603,299,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
