@@ -1,0 +1,40 @@
+﻿<Window x:Class="RecipeAppPOE.ScaleQuantitiesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:RecipeAppPOE"
+        Title="Scale Quantities" Width="600" Height="312">
+    <Viewbox Stretch="Uniform">
+        <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Select Recipe:" />
+        <ComboBox Grid.Row="0" ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe}"
+                  DisplayMemberPath="Name" Width="200" Margin="5" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <RadioButton x:Name="halfRadioButton" Content="Half" Margin="5" IsChecked="True" />
+            <RadioButton x:Name="doubleRadioButton" Content="Double" Margin="5" />
+            <RadioButton x:Name="tripleRadioButton" Content="Triple" Margin="5" />
+        </StackPanel>
+
+        <ListView x:Name="ingredientsListView" Grid.Row="3" ItemsSource="{Binding ScaledIngredients}" Margin="0,0,0,59">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Ingredient" DisplayMemberBinding="{Binding Name}" Width="150" />
+                    <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Quantity}" Width="70" />
+                    <GridViewColumn Header="Unit" DisplayMemberBinding="{Binding Unit}" Width="70" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button Grid.Row="4" Content="Scale" Click="ScaleButton_Click" Margin="0,10,10,10" />
+        <Button Grid.Row="3" Content="Reset" Click="ResetButton_Click" Margin="0,155,10,0" />
+    </Grid>
+    </Viewbox>
+</Window>

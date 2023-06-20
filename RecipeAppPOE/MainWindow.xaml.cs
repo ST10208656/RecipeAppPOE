@@ -1,35 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace RecipeAppPOE
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    // Other using statements and code...
+
     public partial class MainWindow : Window
     {
+        private RecipeData recipeData;
+
         public MainWindow()
         {
             InitializeComponent();
+          
+            recipeData = new RecipeData();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-EnterRecipe obj = new EnterRecipe();
+            EnterRecipe obj = new EnterRecipe(recipeData);
             obj.Show();
-            Close();
+            MessageBox.Show("Welcome, please start by entering all your ingredients and press 'Add ingredient'. Do the same for instructions, and once you're done, you can enter your recipe name and press 'Save recipe'. If you wish to view all your entered recipes, press 'View'.", "Welcome", MessageBoxButton.OK);
+            // Hide the current window instead of closing it
         }
     }
+
+    // Rest of the code...
 }

@@ -1,145 +1,169 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace RecipeAppPOE
 {
-    /// <summary>
-    /// Interaction logic for EnterRecipe.xaml
-    /// </summary>
-    public partial class EnterRecipe : Window
+   
+    public partial class EnterRecipe : Window, INotifyPropertyChanged
     {
-        private List<Recipe> recipes;
-        private Recipe recipe;
-        public EnterRecipe()
-        {
-            InitializeComponent();
+        private RecipeData recipeData;
+        private Recipe currentRecipe;
+       
 
-            recipes = new List<Recipe>();
-            recipe = new Recipe();
+        public ObservableCollection<Recipe> Recipes
+        {
+            get { return recipeData.Recipes; }
+            set
+            {
+                recipeData.Recipes = value;
+                OnPropertyChanged(nameof(Recipes));
+               
+            }
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+       
+        public EnterRecipe(RecipeData recipeData)
+        {
+            InitializeComponent();
+            this.recipeData = recipeData;
+            currentRecipe = new Recipe();
+            DataContext = currentRecipe;
+            currentRecipe.CaloriesExceeded += CurrentRecipe_CaloriesExceeded;
+
+        }
+        private void CurrentRecipe_CaloriesExceeded(object sender, EventArgs e)
+        {
+            MessageBox.Show("Total calories exceed 300!", "Calories Exceeded", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        private void AddIngredientButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string ingredientName = ingredientNameTextBox.Text;
+                string quantityText = quantityTextBox.Text;
+                string unit = unitComboBox.Text;
+                string calories = caloriesTextBox.Text;
+                string foodGroup = foodGroupComboBox.Text;
+
+                Ingredient ingredient = new Ingredient(ingredientName, quantityText, unit, calories, foodGroup);
+                currentRecipe.Ingredients.Add(ingredient);
+
+                ingredientNameTextBox.Text = string.Empty;
+                quantityTextBox.Text = string.Empty;
+                unitComboBox.SelectedIndex = -1;
+                caloriesTextBox.Text = string.Empty;
+                foodGroupComboBox.SelectedIndex = -1;
+
+                ingredientsListBox.ItemsSource = null;
+                ingredientsListBox.ItemsSource = currentRecipe.Ingredients;
+                UpdateTotalCalories();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding ingredient: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void UpdateTotalCalories()
+        {
+            int totalCalories = currentRecipe.Ingredients.Sum(ingredient => Convert.ToInt32(ingredient.Calories));
+            currentRecipe.TotalCalories = totalCalories;
+
+            // Check if total calories exceed 300
+            if (totalCalories >= 300)
+            {
+                // Raise the CaloriesExceeded event
+                currentRecipe.OnCaloriesExceeded();
+            }
+        }
+
+
+        private void AddInstructionButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string instruction = instructionTextBox.Text;
+                currentRecipe.Instructions.Add(instruction);
+
+                instructionTextBox.Text = string.Empty;
+                instructionsListBox.ItemsSource = null;
+                instructionsListBox.ItemsSource = currentRecipe.Instructions;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding instruction: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void SaveRecipeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string recipeName = recipeNameTextBox.Text;
+                currentRecipe.Name = recipeName;
+
+                Recipes.Add(currentRecipe);
+
+                // Sort the recipes alphabetically within the recipeData instance
+                Recipes = new ObservableCollection<Recipe>(Recipes.OrderBy(recipe => recipe.Name));
+
+                // Clear the input fields and reset the data context
+                currentRecipe = new Recipe();
+                recipeNameTextBox.Text = string.Empty;
+                ingredientsListBox.ItemsSource = currentRecipe.Ingredients;
+                instructionsListBox.ItemsSource = currentRecipe.Instructions;
+
+                // Reset the currentRecipe as the data context
+                DataContext = null;
+                DataContext = currentRecipe;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while saving the recipe: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            RecipeListWindow1 obj = new RecipeListWindow1(recipeData);
+            obj.Show();
 
-           
-
-            string recipeName = RecipeNameTextBox.Text.Trim();
-            if (string.IsNullOrEmpty(recipeName) || recipeName.Any(char.IsDigit))
-            {
-                MessageBox.Show("Invalid input. Please enter a valid recipe name.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return; // Exit the event handler to prevent further execution
-            }
-
-            recipe.Name = recipeName;
-
-            recipe.Ingredients = new List<Ingredient>();
-            recipe.Instructions = new List<Step>();
-          
-            bool addingInstructions = true;
-            while (addingInstructions)
-            {
-                Step instruction = new Step();
-                string instructions = InstructionsTextBox.Text.Trim();
-
-                if (instructions.ToLower().Equals("done"))
-                {
-                    addingInstructions = false;
-                    break;
-                }
-
-                instruction.Steps = instructions;
-                recipe.Instructions.Add(instruction);
-            }
-
-            recipes.Add(recipe);
-            recipes.Sort((r1, r2) => string.Compare(r1.Name, r2.Name, StringComparison.OrdinalIgnoreCase));
-
-            MessageBox.Show("Recipe entered successfully!");
-
-            // Reset UI fields
-            RecipeNameTextBox.Text = string.Empty;
-            IngredientNameTextBox.Text = string.Empty;
-            QuantityTextBox.Text = string.Empty;
-            CaloriesTextBox.Text = string.Empty;
-            InstructionsTextBox.Text = string.Empty;
         }
 
-        private void IngredientNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void unitComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
 
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void ingredientNameTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
 
         }
 
-        private Recipe GetRecipe()
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            return recipe;
+            Menu obj = new Menu(recipeData);
+            obj.Show();
         }
-
-      
-       private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            bool addingIngredients = true;
-            while (addingIngredients)
-            {
-                Ingredient ingredient = new Ingredient();
-
-                string ingredientName = IngredientNameTextBox.Text.Trim();
-                if (ingredientName.ToLower().Equals("done"))
-                {
-                    addingIngredients = false;
-                    break;
-                }
-
-                ingredient.Name = ingredientName;
-
-                if (!double.TryParse(QuantityTextBox.Text, out double quantity))
-                {
-                    MessageBox.Show("Invalid input. Please enter a valid quantity.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return; // Exit the event handler to prevent further execution
-                }
-
-                ingredient.Quantity = quantity;
-
-                if (!int.TryParse(CaloriesTextBox.Text, out int calories))
-                {
-                    MessageBox.Show("Invalid input. Please enter a valid calorie value.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return; // Exit the event handler to prevent further execution
-                }
-
-                if (recipe == null)
-                {
-                    MessageBox.Show("Recipe object is null.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return; // Exit the event handler to prevent further execution
-                }
-
-                if (recipe.Ingredients == null)
-                    recipe.Ingredients = new List<Ingredient>();
-
-                ingredient.Calories = calories;
-                recipe.Ingredients.Add(ingredient);
-            }
-        }
-
     }
 }
+
+
+
+
+
+
 
