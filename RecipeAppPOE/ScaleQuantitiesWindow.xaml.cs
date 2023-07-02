@@ -73,23 +73,104 @@ namespace RecipeAppPOE
                     scalingFactor = 2.0;
                 else if (tripleRadioButton.IsChecked == true)
                     scalingFactor = 3.0;
-
+                double comma;
+                // Perform the scaling operation
                 // Perform the scaling operation
                 foreach (Ingredient ingredient in scaledIngredients)
                 {
-                    ingredient.Quantity = (double.Parse(ingredient.Quantity) * scalingFactor).ToString();
+                    ingredient.Quantity *= scalingFactor;
+
+                    if (ingredient.Unit.Equals("Pinch"))
+                    {
+                        if (ingredient.Quantity >= 16)
+                        {
+                            ingredient.Quantity /= 16;
+                            ingredient.Unit = "Teaspoon";
+                        }
+                    }
+                    else if (ingredient.Unit.Equals("Teaspoon"))
+                    {
+                        if (ingredient.Quantity <= 1)
+                        {
+                            ingredient.Quantity *= 16;
+                            ingredient.Unit = "Pinch";
+                        }
+                        else if (ingredient.Quantity >= 3)
+                        {
+                            ingredient.Quantity /= 3;
+                            ingredient.Unit = "Tablespoon";
+                        }
+                    }
+                    else if (ingredient.Unit.Equals("Tablespoon"))
+                    {
+                        if (ingredient.Quantity <= 1)
+                        {
+                            ingredient.Quantity *= 3;
+                            ingredient.Unit = "Teaspoon";
+                        }
+                        else if (ingredient.Quantity >= 16)
+                        {
+                            ingredient.Quantity /= 16;
+                            ingredient.Unit = "Cup";
+                        }
+                    }
+                    else if (ingredient.Unit.Equals("Cup"))
+                    {
+                        if (ingredient.Quantity <= 1)
+                        {
+                            ingredient.Quantity *= 16;
+                            ingredient.Unit = "Tablespoon";
+                        }
+                        else if (ingredient.Quantity >= 2)
+                        {
+                            ingredient.Quantity /= 2;
+                            ingredient.Unit = "Pint";
+                        }
+                    }
+                    else if (ingredient.Unit.Equals("Pint"))
+                    {
+                        if (ingredient.Quantity <= 1)
+                        {
+                            ingredient.Quantity *= 2;
+                            ingredient.Unit = "Cup";
+                        }
+                        else if (ingredient.Quantity >= 2)
+                        {
+                            ingredient.Quantity /= 2;
+                            ingredient.Unit = "Quart";
+                        }
+                    }
+                    else if (ingredient.Unit.Equals("Quart"))
+                    {
+                        if (ingredient.Quantity <= 1)
+                        {
+                            ingredient.Quantity *= 2;
+                            ingredient.Unit = "Pint";
+                        }
+                    }
                 }
 
+
+                // Update the recipes collection
                 // Update the recipes collection
                 foreach (Recipe recipe in Recipes)
                 {
-                    foreach (Ingredient ingredient in recipe.Ingredients)
+                    if (recipe == SelectedRecipe)
                     {
-                        Ingredient scaledIngredient = scaledIngredients.FirstOrDefault(si => si.Name == ingredient.Name);
-                        if (scaledIngredient != null)
-                            ingredient.Quantity = scaledIngredient.Quantity;
+                        // Update the ingredients collection of the selected recipe
+                        foreach (Ingredient ingredient in recipe.Ingredients)
+                        {
+                            Ingredient scaledIngredient = scaledIngredients.FirstOrDefault(si => si.Name == ingredient.Name);
+                            if (scaledIngredient != null)
+                            {
+                                ingredient.Quantity = scaledIngredient.Quantity;
+                                ingredient.Unit = scaledIngredient.Unit;
+                            }
+                        }
                     }
+                  
                 }
+
 
                 UpdateScaledIngredients();
             }

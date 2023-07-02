@@ -15,7 +15,7 @@
 
         <Label Content="Select Recipe:" />
         <ComboBox Grid.Row="0" ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe}"
-                  DisplayMemberPath="Name" Width="200" Margin="5" />
+                  DisplayMemberPath="Name" Width="200" Margin="80,5,20,5" />
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <RadioButton x:Name="halfRadioButton" Content="Half" Margin="5" IsChecked="True" />

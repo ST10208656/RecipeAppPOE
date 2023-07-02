@@ -9,11 +9,12 @@ namespace RecipeAppPOE
 {
     public class Ingredient : INotifyPropertyChanged
     {
-        private string quantity;
+        private double quantity;
+        private string unit;
       
 
         public string Name { get; set; }
-        public string Quantity
+        public double Quantity
         {
             get { return quantity; }
             set
@@ -26,11 +27,23 @@ namespace RecipeAppPOE
             }
         }
        
-        public string Unit { get; set; }
+       
+        public string Unit
+        {
+            get { return unit; }
+            set
+            {
+                if (unit != value)
+                {
+                    unit = value;
+                    OnPropertyChanged(nameof(Unit));
+                }
+            }
+        }
         public string Calories { get; set; }
         public string FoodGroup { get; set; }
 
-        public Ingredient(string name, string quantity, string unit, string calories, string foodGroup)
+        public Ingredient(string name, double quantity, string unit, string calories, string foodGroup)
         {
             Name = name;
             Quantity = quantity;
@@ -50,12 +63,12 @@ namespace RecipeAppPOE
 
         public override string ToString()
         {
-            return $"{Name} - {Quantity} {Unit} {FoodGroup} {Calories}";
+            return $"-{Quantity} {Unit} of {Name} Food Group: ({FoodGroup}) Calories: {Calories}";
         }
     }
     public class OriginalIngredient
     {
         public string Name { get; set; }
-        public string Quantity { get; set; }
+        public double Quantity { get; set; }
     }
 }

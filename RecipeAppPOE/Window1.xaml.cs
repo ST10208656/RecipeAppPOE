@@ -35,7 +35,7 @@ namespace RecipeAppPOE
                 calorieRangeTextBlock.Foreground = Brushes.Orange;
                 calorieRangeTextBlock.Text = "High";
             }
-            else
+            else if (totalCalories > 500)
             {
                 totalCaloriesTextBlock.Foreground = Brushes.Red;
                 calorieRangeTextBlock.Foreground = Brushes.Red;

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace RecipeAppPOE
 {
@@ -19,10 +20,12 @@ namespace RecipeAppPOE
         {
             EnterRecipe obj = new EnterRecipe(recipeData);
             obj.Show();
-            MessageBox.Show("Welcome, please start by entering all your ingredients and press 'Add ingredient'. Do the same for instructions, and once you're done, you can enter your recipe name and press 'Save recipe'. If you wish to view all your entered recipes, press 'View'.", "Welcome", MessageBoxButton.OK);
-            // Hide the current window instead of closing it
+            Close();
+           
+            MessageBox.Show("Welcome" +"\n\n"+ "Here is brief instructions on how to enter recipes:"+"\n\n"+"* Step 1. Please enter ingredient details first then click 'add ingredient', you can enter more ingredients until done."+"\n"+"* Step 2. Once done, please enter instructions second then click 'add instructions', you can enter more instructions until done."+ "\n"+"* Step 3. Once done, please enter recipe name last then click 'save recipe', \tyou can enter as much recipes as you wish.", "Welcome", MessageBoxButton.OK);
+
+
         }
     }
 
-    // Rest of the code...
 }

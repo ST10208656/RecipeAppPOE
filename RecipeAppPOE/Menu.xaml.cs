@@ -62,6 +62,7 @@ namespace RecipeAppPOE
 
             RecipeListWindow1 newRecipeListWindow = new RecipeListWindow1(recipeData);
             newRecipeListWindow.Show();
+            Close();
 
         }
 
@@ -76,11 +77,14 @@ namespace RecipeAppPOE
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+       
+
+        private void ScaleButton_Click(object sender, RoutedEventArgs e)
         {
             ScaleQuantitiesWindow scaleWindow = new ScaleQuantitiesWindow(recipeData);
 
             scaleWindow.ShowDialog();
+            
 
             // Check if the scaling was successful or canceled
             if (scaleWindow.DialogResult.HasValue && scaleWindow.DialogResult.Value)
@@ -88,7 +92,14 @@ namespace RecipeAppPOE
                 // Refresh the UI to reflect the scaled quantities
                 Ingredients = new ObservableCollection<Ingredient>(Ingredients);
             }
+            Close();
         }
 
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteRecipeWindow obj = new DeleteRecipeWindow(recipeData);
+            obj.Show();
+            Close();
+        }
     }
 }

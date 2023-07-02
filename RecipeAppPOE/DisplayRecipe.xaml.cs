@@ -51,7 +51,7 @@ namespace RecipeAppPOE
             if (!string.IsNullOrWhiteSpace(caloriesTextBox.Text) && !int.TryParse(caloriesTextBox.Text, out maxCalories))
             {
                 // Invalid input for maximum calories, display an error message
-                MessageBox.Show("Invalid value for maximum calories.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+               MessageBox.Show("Invalid value for maximum calories.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -114,6 +114,14 @@ namespace RecipeAppPOE
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ContinueToMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            Menu obj = new Menu(recipeData);
+            obj.Show();
+            Close();
+
         }
     }
 }

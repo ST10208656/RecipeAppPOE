@@ -50,8 +50,8 @@ namespace RecipeAppPOE
                 string unit = unitComboBox.Text;
                 string calories = caloriesTextBox.Text;
                 string foodGroup = foodGroupComboBox.Text;
-
-                Ingredient ingredient = new Ingredient(ingredientName, quantityText, unit, calories, foodGroup);
+                double quantity = double.Parse(quantityText);
+                Ingredient ingredient = new Ingredient(ingredientName, quantity, unit, calories, foodGroup);
                 currentRecipe.Ingredients.Add(ingredient);
 
                 ingredientNameTextBox.Text = string.Empty;
@@ -63,10 +63,11 @@ namespace RecipeAppPOE
                 ingredientsListBox.ItemsSource = null;
                 ingredientsListBox.ItemsSource = currentRecipe.Ingredients;
                 UpdateTotalCalories();
+                MessageBox.Show("Ingredient added successfully");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding ingredient: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+              //  MessageBox.Show($"Error adding ingredient: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void UpdateTotalCalories()
@@ -87,7 +88,10 @@ namespace RecipeAppPOE
         {
             try
             {
-                string instruction = instructionTextBox.Text;
+                int step = currentRecipe.Instructions.Count + 1; // Get the current step number
+
+                string instruction = "Step " + step + ": " + instructionTextBox.Text;
+               
                 currentRecipe.Instructions.Add(instruction);
 
                 instructionTextBox.Text = string.Empty;
@@ -98,6 +102,7 @@ namespace RecipeAppPOE
             {
                 MessageBox.Show($"Error adding instruction: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            MessageBox.Show("Instructions added successfully.");
         }
 
         private void SaveRecipeButton_Click(object sender, RoutedEventArgs e)
@@ -121,11 +126,13 @@ namespace RecipeAppPOE
                 // Reset the currentRecipe as the data context
                 DataContext = null;
                 DataContext = currentRecipe;
+                MessageBox.Show("Recipe saved successfully");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while saving the recipe: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+              MessageBox.Show($"An error occurred while saving the recipe: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+           
         }
 
 
@@ -153,10 +160,12 @@ namespace RecipeAppPOE
 
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+ 
+        private void MenuButton_Click_1(object sender, RoutedEventArgs e)
         {
             Menu obj = new Menu(recipeData);
             obj.Show();
+            Close();
         }
     }
 }

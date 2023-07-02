@@ -1,0 +1,35 @@
+﻿<Window x:Class="RecipeAppPOE.DeleteRecipeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:RecipeAppPOE"
+        Title="Delete Recipe" Width="400" Height="312">
+   
+        <Grid Background="Black">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Content="Select Recipe:" FontFamily="Cascadia Mono SemiBold" Foreground="#FFFE89FF" FontSize="16" Margin="16,8,0,4" />
+            <ComboBox Grid.Row="1" ItemsSource="{Binding Recipes}" SelectedItem="{Binding SelectedRecipe}"
+                      DisplayMemberPath="Name" Margin="16,0,16,8" FontSize="14" />
+
+            <Button Grid.Row="4" Content="Delete" Click="DeleteButton_Click" Margin="16,8,16,16" Background="{x:Null}"
+                    FontFamily="Cascadia Code SemiBold" Foreground="White" BorderBrush="White" FontSize="14">
+                <Button.Effect>
+                    <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
+                </Button.Effect>
+            </Button>
+        <Button x:Name="button" Content="Continue to menu" HorizontalAlignment="Left" Margin="7,140,0,0" Grid.Row="3" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" BorderBrush="White">
+            <Button.Effect>
+                <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
+            </Button.Effect>
+        </Button>
+
+
+    </Grid>
+   
+</Window>
