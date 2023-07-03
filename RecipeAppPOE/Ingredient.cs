@@ -63,7 +63,7 @@ namespace RecipeAppPOE
 
         public override string ToString()
         {
-            return $"-{Quantity} {Unit} of {Name} Food Group: ({FoodGroup}) Calories: {Calories}";
+            return $"-{Quantity} {Unit} of {Name}    Food Group: {FoodGroup}    Calories: {Calories}";
         }
     }
     public class OriginalIngredient

@@ -8,35 +8,42 @@
         Title="Window2" Height="450" Width="800">
     <Grid Background="Black">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="307">
+            <!-- Button for adding more recipes -->
             <Button Content="1. Add more recipes" Click="AddRecipesButton_Click" FontSize="18" Width="239" Foreground="White" BorderBrush="{x:Null}" Background="{x:Null}" Margin="0,5,0,20" FontWeight="Bold" FontFamily="Cascadia Mono SemiBold">
                 <Button.Effect>
                     <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
                 </Button.Effect>
             </Button>
+            <!-- Button for displaying all recipes -->
             <Button Content="2. Display all recipes" Click="DisplayRecipesButton_Click" Margin="0,5,0,20" Tag="all" FontSize="18" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" FontWeight="Bold" FontFamily="Cascadia Code SemiBold">
                 <Button.Effect>
                     <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
                 </Button.Effect>
             </Button>
+            <!-- Button for scaling or resetting quantities -->
             <Button Content="3. Scale or reset" Margin="0,5,0,20" Tag="all" FontSize="18" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" Click="ScaleButton_Click" FontWeight="Bold" FontFamily="Cascadia Code SemiBold">
                 <Button.Effect>
                     <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
                 </Button.Effect>
             </Button>
-            <Button Content="4. Delete a recipe" Margin="0,5,0,0" Tag="all" FontSize="18" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" Click="DeleteButton_Click" FontWeight="Bold" FontFamily="Cascadia Code SemiBold">
+            <!-- Button for deleting a recipe -->
+            <Button Content="4. Delete a recipe" Margin="0,5,0,20" Tag="all" FontSize="18" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" Click="DeleteButton_Click" FontWeight="Bold" FontFamily="Cascadia Code SemiBold">
                 <Button.Effect>
                     <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
                 </Button.Effect>
             </Button>
-            <!--<Button Content="3. Scale the quantity of the ingredients or reset the quantity" Click="ScaleQuantityButton_Click" Margin="0,5,0,0"/>-->
-            <!-- <Button Content="4. Clear data of a recipe" Click="ClearDataButton_Click" Margin="0,5,0,0"/>-->
-            <!--<Button Content="5. Exit" Click="ExitButton_Click" Margin="0,5,0,0"/>-->
+            <!-- Button for exiting the application -->
+            <Button Content="5. Exit" Margin="0,5,0,0" Tag="all" FontSize="18" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" Click="ExitButton_Click" FontWeight="Bold" FontFamily="Cascadia Code SemiBold">
+                <Button.Effect>
+                    <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
+                </Button.Effect>
+            </Button>
         </StackPanel>
+        <!-- Border for visual styling -->
         <Border BorderBrush="White" BorderThickness="1,1,1,1" Margin="56,48,56,54">
             <Border.Effect>
                 <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
             </Border.Effect>
         </Border>
-
     </Grid>
 </Window>

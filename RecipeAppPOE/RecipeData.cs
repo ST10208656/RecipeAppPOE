@@ -10,6 +10,24 @@ namespace RecipeAppPOE
 {
     public class RecipeData : INotifyPropertyChanged
     {
+        public string Name { get; set; }
+
+        private int totalCalories;
+        public ObservableCollection<Ingredient> Ingredients { get; set; }
+        public ObservableCollection<string> Instructions { get; set; }
+        public int TotalCalories
+        {
+            get { return totalCalories; }
+            set
+            {
+                if (totalCalories != value)
+                {
+                    totalCalories = value;
+                    OnPropertyChanged(nameof(TotalCalories));
+
+                }
+            }
+        }
         private ObservableCollection<Recipe> recipes;
 
         public event PropertyChangedEventHandler? PropertyChanged;

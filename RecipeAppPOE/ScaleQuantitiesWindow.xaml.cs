@@ -8,6 +8,8 @@ namespace RecipeAppPOE
 {
     public partial class ScaleQuantitiesWindow : Window, INotifyPropertyChanged
     {
+        // Variables for storing data and collections
+        private RecipeData recipeData1;
         private ObservableCollection<Ingredient> ingredients;
         private ObservableCollection<Ingredient> scaledIngredients;
         private ObservableCollection<OriginalIngredient> originalIngredients;
@@ -15,8 +17,10 @@ namespace RecipeAppPOE
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // Property for binding the recipe collection to the view
         public ObservableCollection<Recipe> Recipes { get; set; }
 
+        // Property for storing the currently selected recipe
         public Recipe SelectedRecipe
         {
             get { return selectedRecipe; }
@@ -28,6 +32,7 @@ namespace RecipeAppPOE
             }
         }
 
+        // Property for binding the scaled ingredients collection to the view
         public ObservableCollection<Ingredient> ScaledIngredients
         {
             get { return scaledIngredients; }
@@ -42,44 +47,49 @@ namespace RecipeAppPOE
         public ScaleQuantitiesWindow(RecipeData recipeData)
         {
             InitializeComponent();
+
+            // Initialize variables and collections
+            recipeData1 = recipeData;
             Recipes = new ObservableCollection<Recipe>(recipeData.Recipes);
             ingredients = new ObservableCollection<Ingredient>(recipeData.Recipes.SelectMany(r => r.Ingredients));
             scaledIngredients = new ObservableCollection<Ingredient>(ingredients);
-           
 
-            // Set DataContext
+            // Set DataContext to this window
             DataContext = this;
 
             // Call UpdateScaledIngredients after setting DataContext
             UpdateScaledIngredients();
+
+            // Create a collection of original ingredients for resetting purposes
             originalIngredients = new ObservableCollection<OriginalIngredient>(
-           ingredients.Select(ingredient => new OriginalIngredient
-           {
-               Name = ingredient.Name,
-               Quantity = ingredient.Quantity
-           })
-           );
+                ingredients.Select(ingredient => new OriginalIngredient
+                {
+                    Name = ingredient.Name,
+                    Quantity = ingredient.Quantity
+                })
+            );
         }
 
         private void ScaleButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Get the scaling factor based on the selected radio button
                 double scalingFactor = 1.0;
-
                 if (halfRadioButton.IsChecked == true)
                     scalingFactor = 0.5;
                 else if (doubleRadioButton.IsChecked == true)
                     scalingFactor = 2.0;
                 else if (tripleRadioButton.IsChecked == true)
                     scalingFactor = 3.0;
-                double comma;
-                // Perform the scaling operation
-                // Perform the scaling operation
+
+                // Perform the scaling operation on the scaled ingredients collection
                 foreach (Ingredient ingredient in scaledIngredients)
                 {
+                    // Multiply the quantity by the scaling factor
                     ingredient.Quantity *= scalingFactor;
 
+                    // Perform unit conversions if necessary
                     if (ingredient.Unit.Equals("Pinch"))
                     {
                         if (ingredient.Quantity >= 16)
@@ -152,7 +162,6 @@ namespace RecipeAppPOE
 
 
                 // Update the recipes collection
-                // Update the recipes collection
                 foreach (Recipe recipe in Recipes)
                 {
                     if (recipe == SelectedRecipe)
@@ -168,7 +177,7 @@ namespace RecipeAppPOE
                             }
                         }
                     }
-                  
+
                 }
 
 
@@ -185,6 +194,7 @@ namespace RecipeAppPOE
         {
             if (SelectedRecipe != null)
             {
+                // Reset the quantities of ingredients in the selected recipe
                 foreach (Ingredient ingredient in SelectedRecipe.Ingredients)
                 {
                     OriginalIngredient originalIngredient = originalIngredients.FirstOrDefault(oi => oi.Name == ingredient.Name);
@@ -200,13 +210,13 @@ namespace RecipeAppPOE
         {
             if (SelectedRecipe != null)
             {
+                // Clear and populate the scaledIngredients collection with ingredients from the selected recipe
                 scaledIngredients.Clear();
                 foreach (Ingredient ingredient in SelectedRecipe.Ingredients)
                 {
                     Ingredient scaledIngredient = new Ingredient
                     (
-                       ingredient.Name,
-                       
+                        ingredient.Name,
                         ingredient.Quantity,
                         ingredient.Unit,
                         ingredient.Calories,
@@ -217,17 +227,24 @@ namespace RecipeAppPOE
             }
             else
             {
-                scaledIngredients = new ObservableCollection<Ingredient>(ingredients);
+                scaledIngredients.Clear(); // Clear the scaledIngredients collection when no recipe is selected
             }
 
-
             ScaledIngredients = scaledIngredients;
-          
         }
+
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ContinueToMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Open the Menu window and close the current window
+            Menu obj = new Menu(recipeData1);
+            obj.Show();
+            Close();
         }
     }
 }

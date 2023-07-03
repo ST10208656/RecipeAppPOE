@@ -1,0 +1,103 @@
+﻿<Window x:Class="RecipeAppPOE.RecipeDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:RecipeAppPOE"
+        Title="Recipe Details" Height="500" Width="600">
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <!-- Row 0: Recipe Name -->
+            <RowDefinition Height="Auto" />
+
+            <!-- Row 1: Ingredients -->
+            <RowDefinition Height="*" />
+
+            <!-- Row 2: Calorie Range -->
+            <RowDefinition Height="Auto" />
+
+            <!-- Row 3: Total Calories -->
+            <RowDefinition Height="Auto" />
+
+            <!-- Row 4: Buttons -->
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="10">
+            <!-- Recipe Name -->
+            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="18" Foreground="White" FontFamily="Cascadia Code SemiBold">
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2" />
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <!-- Ingredients Label -->
+            <Label Content="Ingredients:" FontWeight="Bold" Margin="0,10,0,5" Foreground="White" FontFamily="Cascadia Code SemiBold" />
+
+            <!-- Ingredients ListBox -->
+            <ListBox x:Name="ingredientsListBox" ItemsSource="{Binding Ingredients}" Margin="0,0,0,10" Foreground="#FFFE89FF" FontFamily="Cascadia Mono SemiBold" Background="{x:Null}" BorderBrush="{x:Null}" />
+
+            <!-- Instructions Label -->
+            <Label Content="Instructions:" FontWeight="Bold" FontFamily="Cascadia Mono SemiBold" Foreground="White" />
+
+            <!-- Instructions ListBox -->
+            <ListBox x:Name="instructionsListBox" ItemsSource="{Binding Instructions}" Foreground="#FFFE89FF" Background="{x:Null}" BorderBrush="{x:Null}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <!-- Checkbox for Instruction -->
+                            <CheckBox />
+
+                            <!-- TextBlock for Instruction Text -->
+                            <TextBlock Text="{Binding}" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <!-- Calorie Range Label -->
+                <ColumnDefinition Width="150" />
+
+                <!-- Calorie Range TextBlock -->
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Calorie Range:" Margin="10,0,0,0" FontFamily="Cascadia Code SemiBold" Foreground="White" />
+
+            <!-- Calorie Range TextBlock -->
+            <TextBlock x:Name="calorieRangeTextBlock" Margin="10,0,340,0" Grid.Column="1" Width="100" Height="100" Foreground="White" />
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <!-- Total Calories Label -->
+                <ColumnDefinition Width="150" />
+
+                <!-- Total Calories TextBlock -->
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Total Calories:" Margin="10,0,0,0" FontFamily="Cascadia Code SemiBold" Foreground="White" />
+
+            <!-- Total Calories TextBlock (Bound to the TotalCalories property) -->
+            <TextBlock x:Name="totalCaloriesTextBlock" Text="{Binding TotalCalories}" Margin="10,0,340,0" Grid.Column="1" Width="100" Height="100" Foreground="White" />
+        </Grid>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+            <!-- Return to Recipes Button -->
+            <Button Content="Return to Recipes" Width="150" Margin="10" Click="ReturnToRecipe_Click" Background="{x:Null}" Foreground="White" BorderBrush="White" FontFamily="Cascadia Code SemiBold" >
+                <Button.Effect>
+                    <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
+                </Button.Effect>
+            </Button>
+
+            <!-- Continue to Menu Button -->
+            <Button Content="Continue to Menu" Width="150" Margin="10" Click="ContinueToMenu_Click" FontFamily="Cascadia Code SemiBold" Background="{x:Null}" Foreground="White" BorderBrush="White" >
+                <Button.Effect>
+                    <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
+                </Button.Effect>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

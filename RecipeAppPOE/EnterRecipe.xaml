@@ -6,14 +6,20 @@
         <Grid Background="Black" Height="600" Width="500">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <!-- Row for recipe name and save button -->
                 <RowDefinition Height="*" />
+                <!-- Row for ingredients and instructions -->
             </Grid.RowDefinitions>
 
+            <!-- Grid for recipe name and save button -->
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
+                    <!-- Column for recipe name label -->
                     <ColumnDefinition Width="*" />
+                    <!-- Column for recipe name text box -->
                     <ColumnDefinition Width="Auto" />
+                    <!-- Column for save button -->
                 </Grid.ColumnDefinitions>
 
                 <Label Content="Recipe Name:" VerticalAlignment="Center" Foreground="#FFFE89FF" FontFamily="Cascadia Mono SemiBold" FontSize="14" />
@@ -25,29 +31,37 @@
                 </Button>
             </Grid>
 
+            <!-- StackPanel for ingredients and instructions -->
             <StackPanel Grid.Row="1" Margin="10">
+                <!-- Label for ingredients -->
                 <Label Content="Ingredients" Foreground="White" FontFamily="Cascadia Code SemiBold" FontSize="14" FontWeight="Bold" FontStyle="Italic" />
                 <Grid Height="200">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <!-- Row for ingredient input fields -->
                         <RowDefinition Height="Auto" />
+                        <!-- Row for add ingredient button -->
                         <RowDefinition Height="Auto" />
+                        <!-- Row for ingredients list -->
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="392*" />
+                        <!-- Column for ingredient name -->
                         <ColumnDefinition Width="8*"/>
+                        <!-- Column for quantity -->
                         <ColumnDefinition Width="5*"/>
+                        <!-- Column for unit -->
                         <ColumnDefinition Width="75*"/>
+                        <!-- Column for calories -->
                         <ColumnDefinition Width="Auto" />
+                        <!-- Column for food group -->
                     </Grid.ColumnDefinitions>
 
-                    <TextBox x:Name="ingredientNameTextBox" Grid.Row="1" Grid.Column="0" Margin="5,20,243,51" TextChanged="ingredientNameTextBox_TextChanged" Background="{x:Null}" BorderBrush="White" Foreground="White" >
+                    <TextBox x:Name="ingredientNameTextBox" Grid.Row="1" Grid.Column="0" Margin="5,20,243,51" TextChanged="ingredientNameTextBox_TextChanged" Background="{x:Null}" BorderBrush="White" Foreground="White" />
+                    <TextBox x:Name="quantityTextBox" Grid.Row="0" Margin="159,22,152,52" Grid.RowSpan="2" BorderBrush="White" Background="{x:Null}" Foreground="White" />
 
-                    </TextBox>
-                    <TextBox x:Name="quantityTextBox" Grid.Row="0" Margin="159,22,152,52" Grid.RowSpan="2" BorderBrush="White" Background="{x:Null}" Foreground="White" >
-
-                    </TextBox>
+                    <!-- ComboBox for unit selection -->
                     <ComboBox x:Name="unitComboBox" Margin="262,19,92,52" SelectionChanged="unitComboBox_SelectionChanged" BorderBrush="{x:Null}" Background="{x:Null}" RenderTransformOrigin="0.842,9.396" Grid.Row="1" FontFamily="Cascadia Mono Light">
                         <ComboBoxItem Content="Pinch" />
                         <ComboBoxItem Content="Teaspoon" />
@@ -55,7 +69,10 @@
                         <ComboBoxItem Content="Cup" />
                         <ComboBoxItem Content="Pint" />
                     </ComboBox>
+
                     <TextBox x:Name="caloriesTextBox" Grid.Column="0" Margin="319,20,0,54" Foreground="White" Background="{x:Null}" BorderBrush="White" Grid.ColumnSpan="2" Grid.Row="1" />
+
+                    <!-- ComboBox for food group selection -->
                     <ComboBox x:Name="foodGroupComboBox" Margin="10,18,37,54" Grid.Row="1" Grid.Column="3" FontFamily="Cascadia Code Light">
                         <ComboBoxItem Content="Starchy foods"/>
                         <ComboBoxItem Content="Vegetable and fruits"/>
@@ -65,12 +82,16 @@
                         <ComboBoxItem Content="Fats and oil"/>
                         <ComboBoxItem Content="Water"/>
                     </ComboBox>
+
                     <Button Content="Add Ingredient" Grid.Row="1" Grid.Column="0" Margin="5,48,5,28" Click="AddIngredientButton_Click" Grid.ColumnSpan="4" Background="{x:Null}" Foreground="White" FontFamily="Cascadia Mono SemiBold" BorderBrush="White" Height="18.21" Width="470" >
                         <Button.Effect>
                             <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
                         </Button.Effect>
                     </Button>
+
                     <ListBox x:Name="ingredientsListBox" Grid.Row="2" Grid.Column="0" Margin="10,6,10,57" ItemsSource="{Binding CurrentRecipe.Ingredients}" Grid.ColumnSpan="4" FontFamily="Agency FB" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}" />
+
+                    <!-- Labels for ingredient input fields -->
                     <TextBlock HorizontalAlignment="Left" Margin="5,1,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.RowSpan="2" Height="16" Width="43" RenderTransformOrigin="0.502,0.378" Foreground="#FFFE89FF" FontFamily="Cascadia Code SemiBold" FontSize="14"><Run Language="en-gb" Text="Name:"/></TextBlock>
                     <TextBlock HorizontalAlignment="Left" Margin="159,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.RowSpan="2" Height="15" Width="81" RenderTransformOrigin="0.502,0.378" Text="Quantity:" Foreground="#FFFE89FF" FontFamily="Cascadia Mono SemiBold" FontSize="14"/>
                     <TextBlock HorizontalAlignment="Left" Margin="319,-1,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="81" RenderTransformOrigin="0.502,0.378" Foreground="#FFFE89FF" FontFamily="Cascadia Mono SemiBold" FontSize="14" Grid.ColumnSpan="2" Grid.RowSpan="2"><Run Language="en-gb" Text="Calories:"/></TextBlock>
@@ -88,13 +109,16 @@
                     </Button>
                     <ListBox x:Name="instructionsListBox" Margin="5" ItemsSource="{Binding CurrentRecipe.Instructions}" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" FontFamily="Agency FB" />
                 </StackPanel>
-
             </StackPanel>
-            <Button Content="View Recipes" Click="Button_Click" Background="{x:Null}" BorderBrush="White" FontFamily="Cascadia Mono SemiBold" Foreground="White" Width="172" Margin="318,534,10,10" Grid.Row="1">
+
+            <!-- Button to view recipes -->
+            <Button Content="View Recipes" Click="RecipeListButton_Click" Background="{x:Null}" BorderBrush="White" FontFamily="Cascadia Mono SemiBold" Foreground="White" Width="172" Margin="318,534,10,10" Grid.Row="1">
                 <Button.Effect>
                     <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
                 </Button.Effect>
             </Button>
+
+            <!-- Button to continue to menu -->
             <Button Content="Continue to menu" HorizontalAlignment="Left" Margin="10,534,0,0" Grid.Row="1" VerticalAlignment="Top" Click="MenuButton_Click_1" Width="160" Background="{x:Null}" Foreground="White" BorderBrush="White" Height="28" FontFamily="Cascadia Mono SemiBold">
                 <Button.Effect>
                     <DropShadowEffect Color="#FFFE89FF" Direction="313" BlurRadius="3" ShadowDepth="2"/>
